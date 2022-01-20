@@ -19,9 +19,8 @@ public class CommandParser {
             System.exit(1);
         }
         this.args=args;
-        parseAll();
     }
-    private void parseAll(){
+    public void parseAll(){
         String currentOption=null;
         boolean needArgs=false;
         for (String each:args){
@@ -31,7 +30,6 @@ public class CommandParser {
                     currentOption=each.substring(1);
                     if (ty==OptionType.NEED_ARGS){
                         needArgs=true;
-                        continue;
                     }
                     else if (ty==OptionType.STOP_HERE){
                         System.out.println(Props.getProp(currentOption));
