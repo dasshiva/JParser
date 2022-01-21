@@ -44,11 +44,12 @@ public class CommandParser {
                 needArgs=false;
             }
         }
-        if (needArgs)
-            throw new NoArgException(currentOption);
+	System.out.println('-'+currentOption);
+        //if (needArgs)
+        //    throw new NoArgException('-' + currentOption);
     }
     private boolean isOpt(String str){
-        return '-'==str.charAt(0);
+        return '-' == str.charAt(0);
     }
     private OptionType isValidOption(String str){
         for (String each:stopOpts){
