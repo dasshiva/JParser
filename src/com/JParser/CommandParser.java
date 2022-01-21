@@ -44,9 +44,8 @@ public class CommandParser {
                 needArgs=false;
             }
         }
-	System.out.println('-'+currentOption);
-        //if (needArgs)
-        //    throw new NoArgException('-' + currentOption);
+        if (needArgs)
+            throw new NoArgException("-"+currentOption);
     }
     private boolean isOpt(String str){
         return '-' == str.charAt(0);
