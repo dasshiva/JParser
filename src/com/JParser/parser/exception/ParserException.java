@@ -5,8 +5,8 @@ import com.JParser.exception.BasicException;
 
 public class ParserException extends BasicException  {
     public ParserException(String cause){
-        super(String.format("At %s:%d %s\n%s",Props.getProp("input"),
-                Integer.getInteger(Props.getProp("lineno")),
-                cause, Props.getProp("line")));
+        super(String.format("\n%s\n%s:%d %s",Props.getProp("line"),
+		Props.getProp("input"),
+                Integer.parseInt(Props.getProp("lineno")),cause));
     }
 }
