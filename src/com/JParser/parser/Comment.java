@@ -10,6 +10,8 @@ public class Comment {
             char c = line.charAt(i);
             if (!inMulti) {
                 if (c == '/') {
+                    if (com && c == '/')
+                        return i-2;
                     com = true;
                 }
                 else if (com) {
