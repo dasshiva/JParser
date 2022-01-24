@@ -12,4 +12,11 @@ public class ParserException extends BasicException  {
                 Integer.parseInt(Props.getProp("lineno")),
                 cause,hint));
     }
+    public ParserException(String cause) {
+        super(String.format("\n%s\n%s:%d %s\n" +
+                Props.getProp("line"),
+                Props.getProp("input"),
+                Integer.parseInt(Props.getProp("lineno")),
+                cause));
+    }
 }

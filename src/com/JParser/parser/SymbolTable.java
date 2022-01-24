@@ -1,8 +1,24 @@
 package com.JParser.parser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.JParser.parser.exception.DuplicateIdentifierException;
 
-public class SymbolTable { // CLASS WILL BE IMPLEMENTED LATER
-    HashMap<String,Object> main = new HashMap<>();
+import java.util.ArrayList;
+import java.util.BitSet;
+
+public class SymbolTable {
+    ArrayList<String> identifiers;
+    ArrayList<Object> vals;
+    ArrayList<BitSet> attribs;
+    public SymbolTable () {
+        identifiers = new ArrayList<>();
+        vals = new ArrayList<>();
+        attribs = new ArrayList<>();
+    }
+    public void addSymbol (String name, Object value, BitSet attrib){
+        if (identifiers.contains(name))
+            throw new DuplicateIdentifierException(name);
+        identifiers.add(name);
+        vals.add(value);
+        attribs.add(attrib);
+    }
 }

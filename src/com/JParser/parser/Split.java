@@ -11,7 +11,7 @@ public class Split implements Iterator<String> {
 	private String toParse;
 	private final IO src;
 	private int currentIndex , maxIndex;
-	private boolean isLeft = true;
+	private boolean isLeft;
 	public Split (IO src) {
 		this.src = src;
 	}
