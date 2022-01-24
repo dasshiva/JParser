@@ -19,10 +19,13 @@ public class ParserMain {
                     Props.addProp("line", line);
                     int index;
                     if ((index = Comment.commentIndex(line))==0)
-                        continue;
-                    else {
-                        // NOT IMPLEMENTED YET
-                    }
+			    continue;
+		    else {
+			    Split sp = new Split(line,index);
+			    while(sp.hasNext()){
+				    System.out.println(sp.next());
+			    }
+		    }
             }
         }
         catch (IOException err) {

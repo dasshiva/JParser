@@ -33,6 +33,8 @@ public class Comment {
                 }
             }
         }
-        return 0;
+	if (!inMulti)
+		return -1;
+	return 0;
     }
 }
