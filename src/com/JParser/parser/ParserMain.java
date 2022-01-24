@@ -14,18 +14,14 @@ public class ParserMain {
     public void parse() {
         String line;
         try {
-            while (!(line = reader.read()).equals("EOF")) {
-                    Props.addProp("lineno", Integer.toString(reader.getLineno()));
-                    Props.addProp("line", line);
-                    int index;
-                    if ((index = Comment.commentIndex(line))==0)
-			    continue;
-		    else {
-			    Split sp = new Split(line,index);
-			    while(sp.hasNext()){
-				    System.out.println(sp.next());
-			    }
-		    }
+            Split sp = new Split(reader);
+            String text = "";
+            while (!text.equals("EOF")) {
+                sp.getNext();
+                while (sp.hasNext()) {
+                    text = sp.next();
+                    System.out.println(text);
+                }
             }
         }
         catch (IOException err) {

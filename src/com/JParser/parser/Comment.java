@@ -18,7 +18,8 @@ public class Comment {
                     if (c == '*')
                         inMulti = true;
                     else
-                        throw new UnexpectedTokenException(c);
+                        throw new UnexpectedTokenException(c,
+                                "Create a single-line comment with '/' or multiline comment with /*");
                 }
             }
             else {
@@ -33,8 +34,8 @@ public class Comment {
                 }
             }
         }
-	if (!inMulti)
-		return -1;
-	return 0;
+        if (!inMulti)
+            return -1;
+        return 0;
     }
 }

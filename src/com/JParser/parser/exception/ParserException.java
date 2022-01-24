@@ -4,9 +4,12 @@ import com.JParser.Props;
 import com.JParser.exception.BasicException;
 
 public class ParserException extends BasicException  {
-    public ParserException(String cause){
-        super(String.format("\n%s\n%s:%d %s",Props.getProp("line"),
-		Props.getProp("input"),
-                Integer.parseInt(Props.getProp("lineno")),cause));
+    public ParserException(String cause,String hint){
+        super(String.format("\n%s\n%s:%d %s\n" +
+                        "Were you trying to : %s ?",
+                Props.getProp("line"),
+                Props.getProp("input"),
+                Integer.parseInt(Props.getProp("lineno")),
+                cause,hint));
     }
 }
