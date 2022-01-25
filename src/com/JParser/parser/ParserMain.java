@@ -12,16 +12,10 @@ public class ParserMain {
         reader=readFrom;
     }
     public void parse() {
-        String line;
         try {
-            Split sp = new Split(reader);
-            String text = "";
-            while (!text.equals("EOF")) {
-                sp.getNext();
-                while (sp.hasNext()) {
-                    text = sp.next();
-                    System.out.println(text);
-                }
+            TokenProcessor tp = new TokenProcessor(new Split(reader));
+            while (!tp.isFinished()) {
+                tp.parse();
             }
         }
         catch (IOException err) {

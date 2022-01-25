@@ -1,10 +1,10 @@
 package com.JParser.parser;
 
-import com.JParser.IO;
-import com.JParser.Props;
-
 import java.io.IOException;
 import java.util.Iterator;
+
+import com.JParser.IO;
+import com.JParser.Props;
 
 public class Split implements Iterator<String> {
 	private String currentString;
