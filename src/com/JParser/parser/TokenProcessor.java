@@ -1,6 +1,7 @@
 package com.JParser.parser;
 
 import com.JParser.parser.exception.UnexpectedTokenException;
+import com.JParser.parser.exception.IllegalIdentifierException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class TokenProcessor {
     private ArrayList list;
     private final SymbolTable sym = new SymbolTable();
     private boolean finished;
+    private  boolean decl,expectingId,expectAssign,expectVal;
     public TokenProcessor (Split s){
         src = s;
     }
@@ -33,50 +35,52 @@ public class TokenProcessor {
         AccessMods am = null;
         BuiltinTypes bt = null;
         OptionalMods om = null;
-        boolean decl = false, expectingId = false , expectAssign = false ,expectVal = false;
         String ID = null;
         BitSet attr = null;
         var iter = list.iterator();
         while(iter.hasNext()){
             Object toParse = iter.next();
-            if (toParse instanceof AccessMods) {
-                am = (AccessMods) toParse;
-                decl = true;
-            }
-            else if (toParse instanceof BuiltinTypes) {
-                bt = (BuiltinTypes) toParse;
-                decl = true;
-                expectingId = true;
-            }
-            else if (toParse instanceof OptionalMods) {
-                om = (OptionalMods) toParse;
-                decl = true;
-            }
-            else {
-                if (decl && expectingId) {
-                    if (toParse instanceof String) {
-                        ID = (String) toParse;
-                        attr = makeAttribs(am,om,bt);
-                        expectingId = false;
-                        expectAssign = true;
-                    }
-                    else
-                        throw new UnexpectedTokenException("identifier");
-                }
-                else if (expectAssign) {
-                    if (!(toParse instanceof String) || !toParse.equals("="))
-                        throw new UnexpectedTokenException("assignment operator '='");
-                    else
-                        expectVal = true;
-                }
-                else if (expectVal) {
-                    if (!(toParse instanceof String))
-                        throw new UnexpectedTokenException(String.format("value for variable %s ",ID));
-                    else
-                        sym.addSymbol(ID,toParse,attr);
-                }
-            }
-        }
+	    if (!expectingId) {
+		    if (toParse instanceof AccessMods) {
+			    am = (AccessMods) toParse;
+			    decl = true;
+		    }
+		    else if (toParse instanceof BuiltinTypes) {
+			    bt = (BuiltinTypes) toParse;
+			    decl = true;
+			    expectingId = true;
+		    }
+		    else if (toParse instanceof OptionalMods) {
+			    om = (OptionalMods) toParse;
+			    decl = true;
+		    }
+	    }
+	    if (decl && expectingId) {
+		    if (toParse instanceof String) {
+			    ID = (String) toParse;
+			    attr = makeAttribs(am,om,bt);
+			    expectingId = false;
+			    expectAssign = true;
+		    }
+		    else if (toParse instanceof Transform) {
+			    Transform n = (Transform) toParse;
+			    throw new IllegalIdentifierException(n.transform());
+		    }
+	    }
+	    else if (expectAssign) {
+		    if (!(toParse instanceof String) && !toParse.equals("="))
+			    throw new UnexpectedTokenException("assignment operator '='");
+		    else
+			    expectVal = true;
+	    }
+	    else if (expectVal) {
+		    if (!(toParse instanceof String))
+			    throw new UnexpectedTokenException(String.format("value for variable %s ",ID));
+		    else
+			    sym.addSymbol(ID,toParse,attr);
+
+	    }
+	}
     }
     private BitSet makeAttribs (AccessMods am, OptionalMods om, BuiltinTypes bt){
         BitSet attr = new BitSet();

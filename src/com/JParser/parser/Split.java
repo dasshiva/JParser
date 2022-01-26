@@ -36,6 +36,8 @@ public class Split implements Iterator<String> {
 		while (true) {
 			toParse = src.read() + ' ';
 			int temp;
+			Props.addProp("lineno", Integer.toString(src.getLineno()));                            
+			Props.addProp("line", toParse);
 			if ((temp = Comment.commentIndex(toParse)) == 0)
 				continue;
 			else if (temp == -1) {
@@ -48,8 +50,6 @@ public class Split implements Iterator<String> {
 				isLeft = true;
 				maxIndex = temp;
 			}
-			Props.addProp("lineno", Integer.toString(src.getLineno()));
-			Props.addProp("line", toParse);
 			break;
 		}
 	}
